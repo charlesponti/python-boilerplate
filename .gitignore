@@ -13,7 +13,6 @@ build
 *~
 .DS_Store
 .vscode
-.idea
 
 # environment files
 .env
@@ -21,5 +20,12 @@ build
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Python
+__pycache__
+env
+.venv
+.pytest_cache
+.ipynb_checkpoints
 
 npm-debug.log*

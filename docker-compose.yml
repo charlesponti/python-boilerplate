@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  # Define our individual services
+
+  flask:
+    # Build the flask service
+    build: ./flask
+
+    # Name our flask container
+    container_name: flask
+
+    # Instruct Docker to always restart the service
+    restart: always
+
+    # Use ENV to variables
+    environment:
+      - APP_NAME=backpack_main
+
+    # Define ports accessible to services on docker network
+    # uWSGI will be serving our Flask application on :8080
+    expose:
+      - 8080
+
+    # Mount the container log directory to the local log directory
+    # Consider changing this to /var/log/uwsgi:/var/log/uwsgi in production
+    volumes:
+      - ./flask:/app
+      - ./log/uwsgi:/var/log/uwsgi
+    depends_on:
+      - postgres
+
+  nginx:
+    # Build the nginx service
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    # Map ports on the host machine to ports exposed by the container
+    ports:
+      - "5000:80"
+
+  postgres:
+    image: postgres
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: backpack
+    ports:
+      - 5432:5432
