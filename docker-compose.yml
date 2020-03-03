@@ -5,7 +5,7 @@ services:
 
   flask:
     # Build the flask service
-    build: ./flask
+    build: ./services/flask
 
     # Name our flask container
     container_name: flask
@@ -25,14 +25,14 @@ services:
     # Mount the container log directory to the local log directory
     # Consider changing this to /var/log/uwsgi:/var/log/uwsgi in production
     volumes:
-      - ./flask:/app
+      - ./services/flask:/app
       - ./log/uwsgi:/var/log/uwsgi
     depends_on:
       - postgres
 
   nginx:
     # Build the nginx service
-    build: ./nginx
+    build: ./services/nginx
     container_name: nginx
     restart: always
     # Map ports on the host machine to ports exposed by the container
